@@ -1,5 +1,6 @@
 package com.equijada95.domain.module
 
+import com.equijada95.domain.repository.RandomUserRepository
 import com.equijada95.domain.repository.RandomUserRepositoryImpl
 import dagger.Module
 import dagger.Provides
@@ -13,6 +14,6 @@ class DomainModule {
 
     @Provides
     @Singleton
-    fun providerRandomUserRepository(randomUserRepositoryImpl: RandomUserRepositoryImpl): RandomUserRepositoryImpl = randomUserRepositoryImpl
+    fun providerRandomUserRepository(randomUserRepositoryImpl: RandomUserRepositoryImpl): RandomUserRepository = randomUserRepositoryImpl
 
 }
