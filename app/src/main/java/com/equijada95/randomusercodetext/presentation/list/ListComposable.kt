@@ -21,12 +21,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.equijada95.domain.model.User
+import com.equijada95.randomusercodetext.R
 import com.equijada95.randomusercodetext.presentation.utilities.LoadingComponent
 import com.equijada95.randomusercodetext.presentation.utilities.SearchBar
+import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -73,15 +80,19 @@ private fun ItemView(
     user: User,
     goToDetail: (User) -> Unit,
 ) {
+    val painter = rememberVectorPainter(image = ImageVector.vectorResource((R.drawable.user_placeholder)))
     Row(modifier = Modifier.clickable { goToDetail(user) }) {
         GlideImage(
             modifier = Modifier
-                .width(20.dp)
-                .height(20.dp)
+                .width(dimensionResource(id = R.dimen.picture_list_size))
+                .height(dimensionResource(id = R.dimen.picture_list_size))
                 .aspectRatio(1f)
                 .clip(CircleShape),
-            imageModel = user.picture,
-            contentScale = ContentScale.Crop,
+            imageModel = { user.picture },
+            previewPlaceholder = painter,
+            imageOptions = ImageOptions(
+                contentScale = ContentScale.Crop,
+            ),
         )
         
         Column {
@@ -90,4 +101,18 @@ private fun ItemView(
         }
     }
     
+}
+
+@Preview
+@Composable
+fun ListPreview() {
+    val list = listOf(
+        User(gender = "female", name = "Pablo Garcia", email = "pablo@gmail.com", latitude = "-69.8246", longitude = "134.8719", picture = "https://randomuser.me/api/portraits/men/75.jpg", registeredDate = "2007-07-09T05:51:59.390Z"),
+        User(gender = "female", name = "Pablo Garcia", email = "pablo@gmail.com", latitude = "-69.8246", longitude = "134.8719", picture = "https://randomuser.me/api/portraits/men/75.jpg", registeredDate = "2007-07-09T05:51:59.390Z"),
+        User(gender = "female", name = "Pablo Garcia", email = "pablo@gmail.com", latitude = "-69.8246", longitude = "134.8719", picture = "https://randomuser.me/api/portraits/men/75.jpg", registeredDate = "2007-07-09T05:51:59.390Z"),
+        User(gender = "female", name = "Pablo Garcia", email = "pablo@gmail.com", latitude = "-69.8246", longitude = "134.8719", picture = "https://randomuser.me/api/portraits/men/75.jpg", registeredDate = "2007-07-09T05:51:59.390Z"),
+        User(gender = "female", name = "Pablo Garcia", email = "pablo@gmail.com", latitude = "-69.8246", longitude = "134.8719", picture = "https://randomuser.me/api/portraits/men/75.jpg", registeredDate = "2007-07-09T05:51:59.390Z"),
+        User(gender = "female", name = "Pablo Garcia", email = "pablo@gmail.com", latitude = "-69.8246", longitude = "134.8719", picture = "https://randomuser.me/api/portraits/men/75.jpg", registeredDate = "2007-07-09T05:51:59.390Z"),
+    )
+    ListItems(userList = list, goToDetail = {})
 }
