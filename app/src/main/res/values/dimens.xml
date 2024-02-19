@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_constraint">7dp</dimen>
+    <dimen name="title_size">16sp</dimen>
+    <dimen name="margin_name">2dp</dimen>
+    <dimen name="search_bar_corner_radius">10dp</dimen>
+</resources>
