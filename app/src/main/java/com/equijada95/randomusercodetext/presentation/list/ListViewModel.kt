@@ -34,10 +34,10 @@ class ListViewModel @Inject constructor(
 
     fun search(searchText: String) {
         this.searchText.update { searchText }
-        val searchHeros = originalUsers.value.filter { user ->
-            user.name.uppercase().contains(searchText.uppercase())
+        val searchUsers = originalUsers.value.filter { user ->
+            user.name.uppercase().contains(searchText.uppercase()) || user.email.uppercase().contains(searchText.uppercase())
         }
-        _state.update { it.copy(userList = searchHeros) }
+        _state.update { it.copy(userList = searchUsers) }
     }
 
     private suspend fun getUsers() {
@@ -45,9 +45,9 @@ class ListViewModel @Inject constructor(
             when (result) {
                 is ApiResult.Success -> {
                     var users = result.data ?: emptyList()
-                    if (searchText.value.isNotEmpty()) {
-                        users = users.filter { hero ->
-                            hero.name.uppercase().contains(searchText.value.uppercase())
+                    if (searchText.value.isNotEmpty()) { // ESTO ES PARA QUE SE CARGUE SI REFRESCA BUSCANDO
+                        users = users.filter { user ->
+                            user.name.uppercase().contains(searchText.value.uppercase()) || user.email.uppercase().contains(searchText.value.uppercase())
                         }
                     } else {
                         originalUsers.update { users }
