@@ -40,7 +40,8 @@ import com.skydoves.landscapist.glide.GlideImage
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ListComposable(
-    viewModel: ListViewModel = hiltViewModel()
+    viewModel: ListViewModel = hiltViewModel(),
+    goToDetail: (User) -> Unit
 ) {
 
     val state by viewModel.state.collectAsState()
@@ -55,7 +56,7 @@ fun ListComposable(
             if (state.loading) {
                 LoadingComposable()
             } else {
-                ListItems(userList = state.userList, goToDetail = { })
+                ListItems(userList = state.userList, goToDetail = goToDetail)
             }
         }
         PullRefreshIndicator(state.refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
