@@ -8,6 +8,6 @@ import retrofit2.http.Query
 interface AppProvider {
 
     @GET("?")
-    suspend fun getResults(@Query("results") results: String): Response<RandomUserResults>
+    suspend fun getResults(@Query("results") results: Int): Response<RandomUserResults>
 
 }

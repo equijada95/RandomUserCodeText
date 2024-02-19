@@ -19,7 +19,7 @@ class RandomUserRepositoryImpl @Inject constructor(
 ): RandomUserRepository {
     override fun getUsers(results: Int): Flow<ApiResult<List<User>>> = flow {
         try {
-            val apiResponse = provider.getResults(results.toString()).body()
+            val apiResponse = provider.getResults(results).body()
             emit(ApiResult.Success(apiResponse?.results?.toUserList()))
         } catch (e: HttpException) {
             emit(ApiResult.Error(
