@@ -51,11 +51,11 @@ fun ListComposable(
 
     Box(Modifier.pullRefresh(pullRefreshState)) {
         Column {
-            SearchBar(setSearch = {  })
+            SearchBar(setSearch = { viewModel.search(it) })
             if (state.loading) {
                 LoadingComponent()
             } else {
-                ListItems(userList = state.userList, goToDetail = {  })
+                ListItems(userList = state.userList, goToDetail = { })
             }
         }
         PullRefreshIndicator(state.refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
