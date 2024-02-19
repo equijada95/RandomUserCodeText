@@ -36,7 +36,7 @@ class RandomUserRepositoryImpl @Inject constructor(
 private fun List<RandomUserModel>.toUserList() = map { it.toUser() }
 
 private fun RandomUserModel.toUser() = User(
-    name = "${name.title} " + "${name.first} " + name.last,
+    name = "${name.first} " + name.last,
     email = this.email,
     gender = this.gender,
     latitude = location.coordinates.latitude,
