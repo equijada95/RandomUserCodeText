@@ -41,6 +41,6 @@ private fun RandomUserModel.toUser() = User(
     gender = this.gender,
     latitude = location.coordinates.latitude,
     longitude = location.coordinates.longitude,
-    picture = picture.thumbnail,
+    picture = picture.large,
     registeredDate = registered.date
 )
