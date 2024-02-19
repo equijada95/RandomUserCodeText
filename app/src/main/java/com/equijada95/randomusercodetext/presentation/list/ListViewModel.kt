@@ -29,8 +29,8 @@ class ListViewModel @Inject constructor(
         }
     }
 
-    private fun getUsers() {
-        repository.getUsers().onEach { result ->
+    private suspend fun getUsers() {
+        repository.getUsers().collect { result ->
             when (result) {
                 is ApiResult.Success -> {
                     _state.update {
