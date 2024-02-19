@@ -32,7 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.equijada95.domain.model.User
 import com.equijada95.randomusercodetext.R
-import com.equijada95.randomusercodetext.presentation.utilities.LoadingComponent
+import com.equijada95.randomusercodetext.presentation.utilities.LoadingComposable
 import com.equijada95.randomusercodetext.presentation.utilities.SearchBar
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
@@ -53,7 +53,7 @@ fun ListComposable(
         Column {
             SearchBar(setSearch = { viewModel.search(it) })
             if (state.loading) {
-                LoadingComponent()
+                LoadingComposable()
             } else {
                 ListItems(userList = state.userList, goToDetail = { })
             }

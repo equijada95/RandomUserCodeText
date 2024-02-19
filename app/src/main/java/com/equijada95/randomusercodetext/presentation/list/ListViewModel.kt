@@ -68,7 +68,7 @@ class ListViewModel @Inject constructor(
 
     data class ListState (
         val userList: List<User> = emptyList(),
-        val loading: Boolean = false,
+        val loading: Boolean = true,
         val refreshing: Boolean = false,
     )
 
