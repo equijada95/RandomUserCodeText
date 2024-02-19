@@ -7,6 +7,6 @@ import retrofit2.http.GET
 interface AppProvider {
 
     @GET("?results=20")
-    suspend fun getAll(): Response<List<RandomUserModel>>
+    fun getAll(): Response<List<RandomUserModel>>
 
 }
