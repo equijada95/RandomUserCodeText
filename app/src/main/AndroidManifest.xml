@@ -25,5 +25,7 @@
             </intent-filter>
         </activity>
     </application>
-
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="<put your api KEY here" />
 </manifest>
