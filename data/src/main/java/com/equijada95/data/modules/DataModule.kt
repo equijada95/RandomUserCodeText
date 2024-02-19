@@ -1,6 +1,5 @@
 package com.equijada95.data.modules
 
-import android.app.Application
 import com.equijada95.data.provider.AppProvider
 import dagger.Module
 import dagger.Provides
@@ -31,5 +30,5 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun providerHeroProvider(retrofit: Retrofit): AppProvider = retrofit.create(AppProvider::class.java)
+    fun providerAppProvider(retrofit: Retrofit): AppProvider = retrofit.create(AppProvider::class.java)
 }
