@@ -10,3 +10,7 @@ data class RandomUserModel(
     val picture: PictureModel,
     val registered: RegisteredModel
 )
+
+data class RandomUserResults(
+    val results: List<RandomUserModel>
+)
