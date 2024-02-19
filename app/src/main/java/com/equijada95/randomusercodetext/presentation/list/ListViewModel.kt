@@ -37,7 +37,6 @@ class ListViewModel @Inject constructor(
                         it.copy(
                             userList = result.data ?: emptyList(),
                             loading = false,
-                            error = ApiResult.ApiError.NO_ERROR,
                             refreshing = false
                         )
                     }
@@ -52,6 +51,9 @@ class ListViewModel @Inject constructor(
         val userList: List<User> = emptyList(),
         val loading: Boolean = false,
         val refreshing: Boolean = false,
-        val error: ApiResult.ApiError = ApiResult.ApiError.NO_ERROR
     )
+
+    sealed class Event {
+        class Error(error: ApiResult.ApiError)
+    }
 }
