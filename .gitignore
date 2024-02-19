@@ -32,3 +32,5 @@ TestResults.xml
 .gradle/buildOutputCleanup/outputFiles.bin
 .gradle/config.properties
 .gradle/file-system.probe
+*.lock
+*.bin
