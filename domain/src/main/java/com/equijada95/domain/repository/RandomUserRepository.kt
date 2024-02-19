@@ -11,15 +11,15 @@ import java.io.IOException
 import javax.inject.Inject
 
 interface RandomUserRepository {
-    fun getUsers(): Flow<ApiResult<List<User>>>
+    fun getUsers(results: Int): Flow<ApiResult<List<User>>>
 }
 
 class RandomUserRepositoryImpl @Inject constructor(
     private val provider: AppProvider
 ): RandomUserRepository {
-    override fun getUsers(): Flow<ApiResult<List<User>>> = flow {
+    override fun getUsers(results: Int): Flow<ApiResult<List<User>>> = flow {
         try {
-            val apiResponse = provider.getAll().body()
+            val apiResponse = provider.getResults(results.toString()).body()
             emit(ApiResult.Success(apiResponse?.results?.toUserList()))
         } catch (e: HttpException) {
             emit(ApiResult.Error(

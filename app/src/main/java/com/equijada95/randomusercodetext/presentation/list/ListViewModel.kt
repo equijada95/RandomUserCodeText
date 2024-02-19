@@ -41,7 +41,7 @@ class ListViewModel @Inject constructor(
     }
 
     private suspend fun getUsers() {
-        repository.getUsers().collect { result ->
+        repository.getUsers(20).collect { result ->
             when (result) {
                 is ApiResult.Success -> {
                     var users = result.data ?: emptyList()
