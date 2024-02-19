@@ -1,4 +1,4 @@
-package com.equijada95.heroapp.domain.result
+package com.equijada95.domain.result
 
 sealed class ApiResult<T>(val data: T? = null, val error: ApiError? = null) {
     class Loading<T>(data: T? = null): ApiResult<T>(data)

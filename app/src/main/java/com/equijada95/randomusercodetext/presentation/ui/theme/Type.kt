@@ -1,4 +1,4 @@
-package com.equijada95.randomusercodetext.ui.theme
+package com.equijada95.randomusercodetext.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

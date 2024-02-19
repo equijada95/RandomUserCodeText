@@ -3,9 +3,11 @@ package com.equijada95.domain.repository
 import com.equijada95.data.model.RandomUserModel
 import com.equijada95.data.provider.AppProvider
 import com.equijada95.domain.model.User
-import com.equijada95.heroapp.domain.result.ApiResult
+import com.equijada95.domain.result.ApiResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 interface RandomUserRepository {
@@ -16,16 +18,22 @@ class RandomUserRepositoryImpl @Inject constructor(
     private val provider: AppProvider
 ): RandomUserRepository {
     override fun getUsers(): Flow<ApiResult<List<User>>> = flow {
-        val apiResponse = provider.getAll().body()
-        emit(ApiResult.Success(apiResponse?.toUserList()))
+        try {
+            val apiResponse = provider.getAll().body()
+            emit(ApiResult.Success(apiResponse?.toUserList()))
+        } catch (e: HttpException) {
+            emit(ApiResult.Error(
+                error = ApiResult.ApiError.SERVER_ERROR,
+            ))
+        } catch (e: IOException) {
+            emit(ApiResult.Error(
+                error = ApiResult.ApiError.NO_CONNECTION_ERROR,
+            ))
+        }
     }
 }
 
-private fun List<RandomUserModel>.toUserList() : List<User> {
-    val list = mutableListOf<User>()
-    this.map { list.add(it.toUser()) }
-    return list
-}
+private fun List<RandomUserModel>.toUserList() = map { it.toUser() }
 
 private fun RandomUserModel.toUser() = User(
     name = "${name.title} " + "${name.first} " + name.last,

@@ -1,4 +1,4 @@
-package com.equijada95.heroapp.data.modules
+package com.equijada95.data.modules
 
 import android.app.Application
 import com.equijada95.data.provider.AppProvider

@@ -1,4 +1,4 @@
-package com.equijada95.randomusercodetext.ui.theme
+package com.equijada95.randomusercodetext.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build
