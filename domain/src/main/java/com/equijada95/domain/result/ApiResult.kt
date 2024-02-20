@@ -8,6 +8,5 @@ sealed class ApiResult<T>(val data: T? = null, val error: ApiError? = null) {
     enum class ApiError {
         SERVER_ERROR,
         NO_CONNECTION_ERROR,
-        NO_ERROR
     }
 }
