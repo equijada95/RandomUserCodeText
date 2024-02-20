@@ -2,6 +2,7 @@ package com.equijada95.domain.repository
 
 import com.equijada95.data.model.RandomUserModel
 import com.equijada95.data.provider.AppProvider
+import com.equijada95.domain.model.Gender
 import com.equijada95.domain.model.User
 import com.equijada95.domain.result.ApiResult
 import kotlinx.coroutines.flow.Flow
@@ -38,9 +39,10 @@ private fun List<RandomUserModel>.toUserList() = map { it.toUser() }
 private fun RandomUserModel.toUser() = User(
     name = "${name.first} " + name.last,
     email = this.email,
-    gender = this.gender,
+    gender = Gender.from(this.gender),
     latitude = location.coordinates.latitude,
     longitude = location.coordinates.longitude,
     picture = picture.large,
-    registeredDate = registered.date
+    registeredDate = registered.date,
+    phone = phone
 )

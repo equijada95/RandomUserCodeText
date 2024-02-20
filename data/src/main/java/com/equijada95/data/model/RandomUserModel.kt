@@ -8,7 +8,8 @@ data class RandomUserModel(
     val email: String,
     val gender: String,
     val picture: PictureModel,
-    val registered: RegisteredModel
+    val registered: RegisteredModel,
+    val phone: String
 )
 
 data class RandomUserResults(

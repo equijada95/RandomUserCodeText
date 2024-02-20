@@ -5,7 +5,8 @@ data class User(
     val latitude: String,
     val longitude: String,
     val email: String,
-    val gender: String,
+    val gender: Gender,
     val picture: String,
-    val registeredDate: String
+    val registeredDate: String,
+    val phone: String
 )
