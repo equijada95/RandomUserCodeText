@@ -9,4 +9,5 @@
     <dimen name="little_text_gray">12sp</dimen>
     <dimen name="height_google_map">200dp</dimen>
     <dimen name="spacer_list">10dp</dimen>
+    <dimen name="toolbar_detail_title">20sp</dimen>
 </resources>
