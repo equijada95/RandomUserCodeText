@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
@@ -33,6 +34,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.getString
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -108,7 +110,7 @@ private fun ItemView(
     user: User,
     goToDetail: (User) -> Unit,
 ) {
-    val painter = rememberVectorPainter(image = ImageVector.vectorResource((R.drawable.user_placeholder)))
+    val painter = rememberVectorPainter(image = ImageVector.vectorResource((R.drawable.user)))
     Row(
         modifier = Modifier
             .padding(dimensionResource(id = R.dimen.padding_constraint))
@@ -132,7 +134,9 @@ private fun ItemView(
         ) {
             Text(text = user.name)
             Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.padding_constraint)))
-            Text(text = user.email)
+            Text(text = user.email,
+                fontSize = dimensionResource(id = R.dimen.little_text_gray).value.sp,
+                color = Color.Gray)
             Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.padding_constraint)))
             Divider()
         }
@@ -140,7 +144,7 @@ private fun ItemView(
     
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun ListPreview() {
     val list = listOf(

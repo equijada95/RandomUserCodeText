@@ -82,7 +82,7 @@ fun Cell(drawableRsource: Int, title: String, description: String) {
         ) {
             Text(
                 text = title,
-                fontSize = dimensionResource(id = R.dimen.detail_title_cell_size).value.sp,
+                fontSize = dimensionResource(id = R.dimen.little_text_gray).value.sp,
                 color = Color.Gray
             )
             Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.padding_constraint)))
