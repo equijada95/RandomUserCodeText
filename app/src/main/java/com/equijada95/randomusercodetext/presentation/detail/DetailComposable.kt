@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.equijada95.domain.model.Gender
 import com.equijada95.domain.model.User
 import com.equijada95.randomusercodetext.R
@@ -106,3 +107,9 @@ private fun Gender.cell() =
         Gender.MALE -> Cell(drawableRsource = R.drawable.male, title = stringResource(id = R.string.gender), description = stringResource(id = R.string.male))
         Gender.UNKNOWN -> Cell(drawableRsource = R.drawable.unknown, title = stringResource(id = R.string.gender), description = stringResource(id = R.string.female))
     }
+
+@Preview
+@Composable
+fun DetailPreview() {
+    DetailComposable(user = User(gender = Gender.MALE, name = "Pablo Garcia", email = "pablo@gmail.com", latitude = "-69.8246", longitude = "134.8719", picture = "https://randomuser.me/api/portraits/men/75.jpg", registeredDate = "2007-07-09T05:51:59.390Z", phone = "(272) 790-0888"),)
+}
