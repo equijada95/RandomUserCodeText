@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -98,15 +100,40 @@ private fun AddressMap(coordinates: LatLng) {
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(coordinates, 10f)
     }
-    GoogleMap(
-        modifier = Modifier.fillMaxSize(),
-        cameraPositionState = cameraPositionState
+    Row(
+        modifier = Modifier
+            .padding(dimensionResource(id = R.dimen.padding_constraint)),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Marker(
-            state = MarkerState(position = coordinates),
-            title = stringResource(id = R.string.address),
+        Spacer(
+            modifier = Modifier
+                .padding(dimensionResource(id = R.dimen.padding_icon_detail))
+                .size(
+                    dimensionResource(id = R.dimen.icon_detail_size),
+                )
         )
+        Column(
+            modifier = Modifier
+                .padding(dimensionResource(id = R.dimen.padding_constraint))
+        ) {
+            Text(
+                text = stringResource(id = R.string.address),
+                fontSize = dimensionResource(id = R.dimen.little_text_gray).value.sp,
+                color = Color.Gray)
+            GoogleMap(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(dimensionResource(id = R.dimen.height_google_map)),
+                cameraPositionState = cameraPositionState
+            ) {
+                Marker(
+                    state = MarkerState(position = coordinates),
+                    title = stringResource(id = R.string.address),
+                )
+            }
+        }
     }
+
 }
 
 @Composable

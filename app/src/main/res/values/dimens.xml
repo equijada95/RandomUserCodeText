@@ -7,4 +7,5 @@
     <dimen name="icon_detail_size">20dp</dimen>
     <dimen name="padding_icon_detail">15dp</dimen>
     <dimen name="little_text_gray">12sp</dimen>
+    <dimen name="height_google_map">200dp</dimen>
 </resources>
