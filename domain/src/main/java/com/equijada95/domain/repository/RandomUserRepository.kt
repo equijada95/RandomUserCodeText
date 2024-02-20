@@ -40,7 +40,7 @@ class RandomUserRepositoryImpl @Inject constructor(
     }
 }
 
-private fun List<RandomUserModel>.toUserList() = map { it.toUser() }
+fun List<RandomUserModel>.toUserList() = map { it.toUser() }
 
 private fun RandomUserModel.toUser() = User(
     name = "${name.first} " + name.last,
