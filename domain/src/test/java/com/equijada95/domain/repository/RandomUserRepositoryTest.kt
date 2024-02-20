@@ -1,6 +1,5 @@
 package com.equijada95.domain.repository
 
-import android.net.http.HttpException
 import app.cash.turbine.test
 import com.equijada95.data.model.NameModel
 import com.equijada95.data.model.PictureModel
@@ -70,7 +69,6 @@ class RandomUserRepositoryTest {
         )
     )
 
-    private val httpException = mockk<HttpException>(relaxed = true)
     private val ioException = mockk<IOException>(relaxed = true)
 
     @Test
