@@ -46,7 +46,7 @@ fun Detail(
         Cell(drawableRsource = R.drawable.user, title = stringResource(id = R.string.name), description = user.name)
         Cell(drawableRsource = R.drawable.mail, title = stringResource(id = R.string.email), description = user.email)
         user.gender.cell()
-        Cell(drawableRsource = R.drawable.calendar, title = stringResource(id = R.string.registered_date), description = user.registeredDate)
+        user.registeredDate?.let { Cell(drawableRsource = R.drawable.calendar, title = stringResource(id = R.string.registered_date), description = it) }
         Cell(drawableRsource = R.drawable.call, title = stringResource(id = R.string.telephone), description = user.phone)
         val coordinates = try {
             LatLng(user.latitude.toDouble(), user.longitude.toDouble())

@@ -9,7 +9,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Locale
 import javax.inject.Inject
+
+private const val DATE_FORMAT_INPUT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+private const val DATE_FORMAT_OUTPUT = "dd-MM-yyyy"
 
 interface RandomUserRepository {
     fun getUsers(results: Int): Flow<ApiResult<List<User>>>
@@ -43,6 +48,11 @@ private fun RandomUserModel.toUser() = User(
     latitude = location.coordinates.latitude,
     longitude = location.coordinates.longitude,
     picture = picture.large,
-    registeredDate = registered.date,
+    registeredDate = registered.date.formatDate(),
     phone = phone
 )
+
+private fun String.formatDate(): String? {
+    val inputDate = SimpleDateFormat(DATE_FORMAT_INPUT, Locale.ENGLISH).parse(this)
+    return inputDate?.let { SimpleDateFormat(DATE_FORMAT_OUTPUT, Locale.ENGLISH).format(it) }
+}
