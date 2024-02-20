@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="padding_constraint">7dp</dimen>
+    <dimen name="padding_constraint">5dp</dimen>
     <dimen name="margin_name">2dp</dimen>
     <dimen name="search_bar_corner_radius">10dp</dimen>
     <dimen name="picture_list_size">50dp</dimen>
