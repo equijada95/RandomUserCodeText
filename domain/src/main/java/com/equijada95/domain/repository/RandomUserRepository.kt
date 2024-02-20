@@ -7,7 +7,6 @@ import com.equijada95.domain.model.User
 import com.equijada95.domain.result.ApiResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
 import java.io.IOException
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -26,16 +25,22 @@ class RandomUserRepositoryImpl @Inject constructor(
 ): RandomUserRepository {
     override fun getUsers(results: Int): Flow<ApiResult<List<User>>> = flow {
         try {
-            val apiResponse = provider.getResults(results).body()
-            emit(ApiResult.Success(apiResponse?.results?.toUserList()))
-        } catch (e: HttpException) {
-            emit(ApiResult.Error(
-                error = ApiResult.ApiError.SERVER_ERROR,
-            ))
+            val response = provider.getResults(results)
+            if (response.code() in 400..500) {
+                emit(
+                    ApiResult.Error(
+                        error = ApiResult.ApiError.SERVER_ERROR,
+                    )
+                )
+            } else {
+                emit(ApiResult.Success(response.body()?.results?.toUserList()))
+            }
         } catch (e: IOException) {
-            emit(ApiResult.Error(
-                error = ApiResult.ApiError.NO_CONNECTION_ERROR,
-            ))
+            emit(
+                ApiResult.Error(
+                    error = ApiResult.ApiError.NO_CONNECTION_ERROR,
+                )
+            )
         }
     }
 }
