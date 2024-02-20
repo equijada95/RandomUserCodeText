@@ -106,6 +106,7 @@ class ListViewModel @Inject constructor(
             ApiResult.ApiError.SERVER_ERROR -> R.string.error_server
             ApiResult.ApiError.NO_CONNECTION_ERROR -> R.string.error_no_connection
         }
+        _state.update { it.copy(loading = false) }
         _event.send(Event.Error(messageId))
     }
 
