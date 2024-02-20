@@ -12,8 +12,11 @@
 
     // DETAIL
     <string name="name">Nombre y apellidos</string>
-    <string name="email">Email></string>
-    <string name="gender">Género></string>
+    <string name="email">Email</string>
+    <string name="gender">Género</string>
+    <string name="male">Hombre</string>
+    <string name="female">Mujer</string>
+    <string name="unknown">Desconocido</string>
     <string name="registered_date">Fecha de registro</string>
     <string name="telephone">Teléfono</string>
     <string name="address">Dirección</string>
