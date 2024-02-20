@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
@@ -52,7 +53,12 @@ private fun RandomUserModel.toUser() = User(
     phone = phone
 )
 
-private fun String.formatDate(): String? {
-    val inputDate = SimpleDateFormat(DATE_FORMAT_INPUT, Locale.ENGLISH).parse(this)
-    return inputDate?.let { SimpleDateFormat(DATE_FORMAT_OUTPUT, Locale.ENGLISH).format(it) }
+private fun String.formatDate(): String {
+    return try {
+        val inputDate = SimpleDateFormat(DATE_FORMAT_INPUT, Locale.ENGLISH).parse(this)
+        inputDate?.let { SimpleDateFormat(DATE_FORMAT_OUTPUT, Locale.ENGLISH).format(it) } ?: run { this }
+    } catch (_: ParseException) {
+        this
+    }
+
 }
