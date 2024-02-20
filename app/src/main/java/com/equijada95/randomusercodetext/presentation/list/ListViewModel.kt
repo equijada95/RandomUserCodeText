@@ -47,7 +47,8 @@ class ListViewModel @Inject constructor(
                         var users = originalUsers.value
                         if (searchText.value.isNotEmpty()) {
                             users = users.filter { user ->
-                                user.name.uppercase().contains(searchText.value.uppercase()) || user.email.uppercase().contains(searchText.value.uppercase())
+                                user.name.uppercase().contains(searchText.value.uppercase()) ||
+                                        user.email.uppercase().contains(searchText.value.uppercase())
                             }.toMutableList()
                         } else {
                             originalUsers.update { users }
