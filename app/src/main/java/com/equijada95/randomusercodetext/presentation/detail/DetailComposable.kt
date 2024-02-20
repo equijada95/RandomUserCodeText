@@ -2,6 +2,7 @@ package com.equijada95.randomusercodetext.presentation.detail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,12 +14,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import com.equijada95.domain.model.Gender
 import com.equijada95.domain.model.User
 import com.equijada95.randomusercodetext.R
@@ -61,21 +64,28 @@ fun DetailComposable(
 fun Cell(drawableRsource: Int, title: String, description: String) {
     Row(
         modifier = Modifier
-            .padding(dimensionResource(id = R.dimen.padding_constraint))
+            .padding(dimensionResource(id = R.dimen.padding_constraint)),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             painterResource(id = drawableRsource),
             contentDescription = null,
-            modifier = Modifier.size(
-                dimensionResource(id = R.dimen.icon_detail_size)
-            )
+            modifier = Modifier
+                .padding(dimensionResource(id = R.dimen.padding_icon_detail))
+                .size(
+                    dimensionResource(id = R.dimen.icon_detail_size),
+                )
         )
 
         Column(
             modifier = Modifier
                 .padding(dimensionResource(id = R.dimen.padding_constraint))
         ) {
-            Text(text = title)
+            Text(
+                text = title,
+                fontSize = dimensionResource(id = R.dimen.detail_title_cell_size).value.sp,
+                color = Color.Gray
+            )
             Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.padding_constraint)))
             Text(text = description)
             Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.padding_constraint)))

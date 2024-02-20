@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="padding_constraint">7dp</dimen>
-    <dimen name="title_size">16sp</dimen>
     <dimen name="margin_name">2dp</dimen>
     <dimen name="search_bar_corner_radius">10dp</dimen>
     <dimen name="picture_list_size">50dp</dimen>
     <dimen name="icon_detail_size">20dp</dimen>
+    <dimen name="padding_icon_detail">15dp</dimen>
+    <dimen name="detail_title_cell_size">12sp</dimen>
 </resources>
