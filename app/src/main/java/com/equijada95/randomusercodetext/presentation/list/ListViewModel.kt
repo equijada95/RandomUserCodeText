@@ -5,10 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.equijada95.domain.model.User
 import com.equijada95.domain.repository.RandomUserRepository
 import com.equijada95.domain.result.ApiResult
+import com.equijada95.randomusercodetext.R
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,8 +22,10 @@ class ListViewModel @Inject constructor(
 ) : ViewModel() {
 
     val state: StateFlow<ListState> get() = _state.asStateFlow()
-
     private val _state = MutableStateFlow(ListState())
+
+    private val _event = Channel<Event>()
+    val event = _event.receiveAsFlow()
 
     private val originalUsers = MutableStateFlow(emptyList<User>())
 
@@ -61,9 +66,20 @@ class ListViewModel @Inject constructor(
                     }
                 }
 
-                else -> Unit // TODO ERROR
+                is ApiResult.Error -> {
+                    result.error?.let { handleError(it) }
+                }
+                else -> Unit
             }
         }
+    }
+
+    private suspend fun handleError(error: ApiResult.ApiError) {
+        val messageId = when(error) {
+            ApiResult.ApiError.SERVER_ERROR -> R.string.error_server
+            ApiResult.ApiError.NO_CONNECTION_ERROR -> R.string.error_no_connection
+        }
+        _event.send(Event.Error(messageId))
     }
 
     data class ListState (
@@ -73,6 +89,6 @@ class ListViewModel @Inject constructor(
     )
 
     sealed class Event {
-        class Error(error: ApiResult.ApiError): Event()
+        class Error(messageId: Int): Event()
     }
 }
