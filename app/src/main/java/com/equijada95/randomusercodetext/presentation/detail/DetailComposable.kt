@@ -22,10 +22,12 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -69,6 +71,13 @@ fun Detail(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
+                colors = TopAppBarColors(
+                    containerColor = Color.Blue,
+                    scrolledContainerColor = Color.Red,
+                    actionIconContentColor = Color.White,
+                    navigationIconContentColor = Color.White,
+                    titleContentColor = Color.White
+                ),
                 title = {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -94,7 +103,8 @@ fun Detail(
                     ) {
                         IconButton(onClick = { onBackPressedDispatcher?.onBackPressed() }) {
                             Icon(
-                                imageVector = Icons.Filled.ArrowBack,
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                tint = Color.White,
                                 contentDescription = "Back",
                             )
 
