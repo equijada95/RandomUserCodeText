@@ -1,11 +1,21 @@
 <resources>
     <string name="app_name">RandomUserCodeText</string>
 
+    // LIST
     <string name="search">Buscar</string>
-    <string name="address">Dirección</string>
 
+    // ERROR
     <string name="error_list">Error: No se han encontrado usuarios </string>
     <string name="error_search">Error: No hse han encontrado usuarios en la búsqueda </string>
     <string name="error_server">Error de servidor</string>
     <string name="error_no_connection">Error: No tienes conexión a internet</string>
+
+    // DETAIL
+    <string name="name">Nombre y apellidos</string>
+    <string name="email">Email></string>
+    <string name="gender">Género></string>
+    <string name="registered_date">Fecha de registro</string>
+    <string name="telephone">Teléfono</string>
+    <string name="address">Dirección</string>
+
 </resources>
