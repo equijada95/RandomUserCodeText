@@ -42,7 +42,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.equijada95.domain.model.Gender
 import com.equijada95.domain.model.User
 import com.equijada95.randomusercodetext.R
-import com.equijada95.randomusercodetext.presentation.utilities.LoadingComposable
+import com.equijada95.randomusercodetext.presentation.utilities.Loading
 import com.equijada95.randomusercodetext.presentation.utilities.SearchBar
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
@@ -75,7 +75,7 @@ fun List(
 
     Column {
         if (state.loading) {
-            LoadingComposable()
+            Loading()
         } else {
             SearchBar(setSearch = { viewModel.search(it) })
             ListItems(userList = state.userList, goToDetail = goToDetail, loadMore = { viewModel.loadMore() })
