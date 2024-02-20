@@ -50,8 +50,6 @@ class ListViewModel @Inject constructor(
                                 user.name.uppercase().contains(searchText.value.uppercase()) ||
                                         user.email.uppercase().contains(searchText.value.uppercase())
                             }.toMutableList()
-                        } else {
-                            originalUsers.update { users }
                         }
                         _state.update {
                             it.copy(
