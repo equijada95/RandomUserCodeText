@@ -47,7 +47,7 @@ import com.skydoves.landscapist.glide.GlideImage
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ListComposable(
+fun List(
     viewModel: ListViewModel = hiltViewModel(),
     goToDetail: (User) -> Unit
 ) {

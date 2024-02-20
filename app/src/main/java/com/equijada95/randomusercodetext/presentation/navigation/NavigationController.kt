@@ -6,8 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.equijada95.domain.model.User
-import com.equijada95.randomusercodetext.presentation.detail.DetailComposable
-import com.equijada95.randomusercodetext.presentation.list.ListComposable
+import com.equijada95.randomusercodetext.presentation.detail.Detail
+import com.equijada95.randomusercodetext.presentation.list.List
 import com.google.gson.Gson
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -17,15 +17,17 @@ fun NavigationController(
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(navController = navController, startDestination = Destinations.List.route) {
-        composable(Destinations.List.route) { ListComposable { user ->
-            user.encode()?.let { encoded ->
-                navController.navigate(Destinations.Detail.createRoute(encoded))
+        composable(Destinations.List.route) {
+            List { user ->
+                user.encode()?.let { encoded ->
+                    navController.navigate(Destinations.Detail.createRoute(encoded))
+                }
             }
-        } }
+        }
         composable(Destinations.Detail.route) { navBackEntry ->
             val encoded = navBackEntry.arguments?.getString("user") ?: return@composable
             encoded.decode(User::class.java)?.let { user ->
-                DetailComposable(user = user)
+                Detail(user = user)
             }
         }
     }
