@@ -3,7 +3,6 @@ package com.equijada95.randomusercodetext.presentation.list
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,17 +11,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -76,20 +75,13 @@ fun List(
         }
     }
 
-    val pullRefreshState = rememberPullRefreshState(state.refreshing, {
-        //refresh()
-    })
-
-    Box(Modifier.pullRefresh(pullRefreshState)) {
-        Column {
-            SearchBar(setSearch = { viewModel.search(it) })
-            if (state.loading) {
-                LoadingComposable()
-            } else {
-                ListItems(userList = state.userList, goToDetail = goToDetail)
-            }
+    Column {
+        SearchBar(setSearch = { viewModel.search(it) })
+        if (state.loading) {
+            LoadingComposable()
+        } else {
+            ListItems(userList = state.userList, goToDetail = goToDetail, loadMore = { viewModel.loadMore() })
         }
-        PullRefreshIndicator(state.refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
     }
 }
 
@@ -97,8 +89,22 @@ fun List(
 private fun ListItems(
     userList: List<User>,
     goToDetail: (User) -> Unit,
+    loadMore: ()-> Unit
 ) {
-    LazyColumn {
+    val buffer = 1
+    val listState = rememberLazyListState()
+    val reachedBottom: Boolean by remember {
+        derivedStateOf {
+            val lastVisibleItem = listState.layoutInfo.visibleItemsInfo.lastOrNull()
+            lastVisibleItem?.index != 0 && lastVisibleItem?.index == listState.layoutInfo.totalItemsCount - buffer
+        }
+    }
+
+    // load more if scrolled to bottom
+    LaunchedEffect(reachedBottom) {
+        if (reachedBottom) loadMore()
+    }
+    LazyColumn(state = listState) {
         items(
             items = userList, itemContent = { user ->
                 ItemView(user, goToDetail)
@@ -165,5 +171,5 @@ fun ListPreview() {
         User(gender = Gender.MALE, name = "Pablo Garcia", email = "pablo@gmail.com", latitude = "-69.8246", longitude = "134.8719", picture = "https://randomuser.me/api/portraits/men/75.jpg", registeredDate = "2007-07-09T05:51:59.390Z", phone = "(272) 790-0888"),
         User(gender = Gender.MALE, name = "Pablo Garcia", email = "pablo@gmail.com", latitude = "-69.8246", longitude = "134.8719", picture = "https://randomuser.me/api/portraits/men/75.jpg", registeredDate = "2007-07-09T05:51:59.390Z", phone = "(272) 790-0888"),
     )
-    ListItems(userList = list, goToDetail = {})
+    ListItems(userList = list, goToDetail = {}, loadMore = {  })
 }

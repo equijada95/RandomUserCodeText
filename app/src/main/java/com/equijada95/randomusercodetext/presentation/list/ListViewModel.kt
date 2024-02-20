@@ -27,13 +27,46 @@ class ListViewModel @Inject constructor(
     private val _event = Channel<Event>()
     val event = _event.receiveAsFlow()
 
-    private val originalUsers = MutableStateFlow(emptyList<User>())
+    private val originalUsers = MutableStateFlow(mutableListOf<User>())
 
     private var searchText = MutableStateFlow("")
 
     init {
         viewModelScope.launch {
             getUsers()
+        }
+    }
+
+    fun loadMore() {
+        viewModelScope.launch {
+            repository.getUsers(20).collect { result ->
+                when (result) {
+                    is ApiResult.Success -> {
+                        val newUsers = result.data ?: emptyList()
+                        originalUsers.value.addAll(newUsers)
+                        var users = originalUsers.value
+                        if (searchText.value.isNotEmpty()) {
+                            users = users.filter { user ->
+                                user.name.uppercase().contains(searchText.value.uppercase()) || user.email.uppercase().contains(searchText.value.uppercase())
+                            }.toMutableList()
+                        } else {
+                            originalUsers.update { users }
+                        }
+                        _state.update {
+                            it.copy(
+                                userList = users,
+                                loading = false,
+                                refreshing = false
+                            )
+                        }
+                    }
+
+                    is ApiResult.Error -> {
+                        result.error?.let { handleError(it) }
+                    }
+                    else -> Unit
+                }
+            }
         }
     }
 
@@ -49,14 +82,8 @@ class ListViewModel @Inject constructor(
         repository.getUsers(20).collect { result ->
             when (result) {
                 is ApiResult.Success -> {
-                    var users = result.data ?: emptyList()
-                    if (searchText.value.isNotEmpty()) { // ESTO ES PARA QUE SE CARGUE SI REFRESCA BUSCANDO
-                        users = users.filter { user ->
-                            user.name.uppercase().contains(searchText.value.uppercase()) || user.email.uppercase().contains(searchText.value.uppercase())
-                        }
-                    } else {
-                        originalUsers.update { users }
-                    }
+                    val users = result.data ?: emptyList()
+                    originalUsers.update { users.toMutableList() }
                     _state.update {
                         it.copy(
                             userList = users,
