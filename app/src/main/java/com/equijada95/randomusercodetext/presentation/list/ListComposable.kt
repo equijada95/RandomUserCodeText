@@ -74,10 +74,10 @@ fun List(
     }
 
     Column {
-        SearchBar(setSearch = { viewModel.search(it) })
         if (state.loading) {
             LoadingComposable()
         } else {
+            SearchBar(setSearch = { viewModel.search(it) })
             ListItems(userList = state.userList, goToDetail = goToDetail, loadMore = { viewModel.loadMore() })
         }
     }
