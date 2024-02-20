@@ -73,6 +73,6 @@ class ListViewModel @Inject constructor(
     )
 
     sealed class Event {
-        class Error(error: ApiResult.ApiError)
+        class Error(error: ApiResult.ApiError): Event()
     }
 }
