@@ -88,7 +88,7 @@ class ListViewModel @Inject constructor(
         val refreshing: Boolean = false,
     )
 
-    sealed class Event {
-        class Error(messageId: Int): Event()
+    sealed class Event(val messageId: Int) {
+        class Error(messageId: Int): Event(messageId)
     }
 }

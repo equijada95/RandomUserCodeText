@@ -1,5 +1,6 @@
 package com.equijada95.randomusercodetext.presentation.list
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -26,10 +28,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.ContextCompat.getString
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.equijada95.domain.model.User
 import com.equijada95.randomusercodetext.R
 import com.equijada95.randomusercodetext.presentation.utilities.LoadingComposable
@@ -45,6 +53,24 @@ fun ListComposable(
 ) {
 
     val state by viewModel.state.collectAsState()
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
+
+    LaunchedEffect(viewModel.event) {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.event.collect { event ->
+                when (event) {
+                    is ListViewModel.Event.Error ->
+                        Toast.makeText(
+                            context,
+                            getString(context, event.messageId),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                }
+            }
+        }
+    }
 
     val pullRefreshState = rememberPullRefreshState(state.refreshing, {
         //refresh()
