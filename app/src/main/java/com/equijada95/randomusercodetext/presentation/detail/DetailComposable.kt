@@ -1,8 +1,10 @@
 package com.equijada95.randomusercodetext.presentation.detail
 
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,11 +15,21 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -26,7 +38,6 @@ import androidx.compose.ui.unit.sp
 import com.equijada95.domain.model.Gender
 import com.equijada95.domain.model.User
 import com.equijada95.randomusercodetext.R
-import com.equijada95.randomusercodetext.presentation.utilities.TopBackBar
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -34,17 +45,49 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Detail(
     user: User
 ) {
+
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+
+    val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            LargeTopAppBar(
+                title = {
+                    androidx.compose.material.Text(user.name)
+                },
+                navigationIcon = {
+                    IconButton(onClick = { onBackPressedDispatcher?.onBackPressed() }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Back",
+                        )
+                    }
+                },
+                scrollBehavior = scrollBehavior
+            )
+        },
+    ) { innerPadding ->
+        DetailView(user = user, innerPadding = innerPadding)
+    }
+}
+
+@Composable
+private fun DetailView(user: User, innerPadding: PaddingValues) {
     Column(
         modifier = Modifier
+            .padding(innerPadding)
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .background(Color.White)
     ) {
-        TopBackBar(title = user.name)
+
         Cell(drawableRsource = R.drawable.user, title = stringResource(id = R.string.name), description = user.name)
         Cell(drawableRsource = R.drawable.mail, title = stringResource(id = R.string.email), description = user.email)
         user.gender.cell()
@@ -62,7 +105,7 @@ fun Detail(
 }
 
 @Composable
-fun Cell(drawableRsource: Int, title: String, description: String) {
+private fun Cell(drawableRsource: Int, title: String, description: String) {
     Row(
         modifier = Modifier
             .padding(dimensionResource(id = R.dimen.padding_constraint)),
