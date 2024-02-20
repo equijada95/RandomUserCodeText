@@ -2,6 +2,7 @@ package com.equijada95.randomusercodetext.presentation.list
 
 import android.widget.Toast
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,6 +34,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.getString
@@ -114,10 +116,12 @@ private fun ItemView(
     Row(
         modifier = Modifier
             .padding(dimensionResource(id = R.dimen.padding_constraint))
-            .clickable { goToDetail(user) }
+            .clickable { goToDetail(user) },
+        verticalAlignment = Alignment.CenterVertically
     ) {
         GlideImage(
             modifier = Modifier
+                .padding(dimensionResource(id = R.dimen.padding_constraint))
                 .size(dimensionResource(id = R.dimen.picture_list_size))
                 .aspectRatio(1f)
                 .clip(CircleShape),
@@ -130,15 +134,21 @@ private fun ItemView(
         
         Column(
             modifier = Modifier
-                .padding(dimensionResource(id = R.dimen.padding_constraint))
+                .padding(dimensionResource(id = R.dimen.padding_constraint)),
+            verticalArrangement = Arrangement.Center
         ) {
-            Text(text = user.name)
-            Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.padding_constraint)))
-            Text(text = user.email,
+            Text(
+                text = user.name,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.spacer_list)))
+            Text(
+                text = user.email,
                 fontSize = dimensionResource(id = R.dimen.little_text_gray).value.sp,
-                color = Color.Gray)
-            Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.padding_constraint)))
-            Divider()
+                color = Color.Gray
+            )
+            Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.spacer_list)))
+            Divider(modifier = Modifier.padding(top = dimensionResource(id = R.dimen.spacer_list)))
         }
     }
     
