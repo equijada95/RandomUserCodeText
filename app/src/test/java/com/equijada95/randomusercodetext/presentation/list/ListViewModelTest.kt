@@ -45,6 +45,9 @@ class ListViewModelTest {
         )
     )
 
+    private val mockLoadMoreUsers = mockUsers + mockUsers
+    private val mockLoadMoreSearchUsers = mockSearchUsers + mockSearchUsers
+
     private val mockApiSuccess = ApiResult.Success(mockUsers)
 
     @Test
@@ -91,6 +94,36 @@ class ListViewModelTest {
                 awaitItem()
                 viewModel.search("Eugenio")
                 assertEquals(awaitItem().userList, mockSearchUsers)
+            }
+        }
+    }
+
+    @Test
+    fun `when load users without search text, returns users`() {
+        coroutinesExtension.runTest {
+            coEvery { repository.getUsers(any()) } returns flow { emit(mockApiSuccess) }
+            initViewModel()
+            viewModel.state.test {
+                awaitItem()
+                awaitItem()
+                viewModel.loadMore()
+                assertEquals(awaitItem().userList, mockLoadMoreUsers)
+            }
+        }
+    }
+
+    @Test
+    fun `when load users with search text, returns users with that name`() {
+        coroutinesExtension.runTest {
+            coEvery { repository.getUsers(any()) } returns flow { emit(mockApiSuccess) }
+            initViewModel()
+            viewModel.state.test {
+                awaitItem()
+                awaitItem()
+                viewModel.search("Eugenio")
+                assertEquals(awaitItem().userList, mockSearchUsers)
+                viewModel.loadMore()
+                assertEquals(awaitItem().userList, mockLoadMoreSearchUsers)
             }
         }
     }
