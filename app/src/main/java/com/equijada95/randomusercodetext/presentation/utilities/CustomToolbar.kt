@@ -45,7 +45,6 @@ fun CustomToolbar(
     iconUserUrl: String,
     content: @Composable (PaddingValues) -> Unit
 ) {
-    val painter = rememberVectorPainter(image = ImageVector.vectorResource((R.drawable.user)))
     val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
     Scaffold(
@@ -61,29 +60,7 @@ fun CustomToolbar(
                 )
                 LargeTopAppBar(
                     title = {
-                        Box(
-                            modifier = Modifier
-                                .align(Alignment.CenterStart)
-                                .padding(dimensionResource(id = R.dimen.spacer_list))
-                                .size(dimensionResource(id = R.dimen.background_detail_icon_user_size))
-                                .aspectRatio(1f)
-                                .clip(CircleShape)
-                                .background(Color.White)
-                        ) {
-                            GlideImage(
-                                modifier = Modifier
-                                    .padding(start = dimensionResource(id = R.dimen.padding_start_image_inside_box))
-                                    .align(Alignment.CenterStart)
-                                    .size(dimensionResource(id = R.dimen.picture_list_size))
-                                    .aspectRatio(1f)
-                                    .clip(CircleShape),
-                                imageModel = { iconUserUrl },
-                                previewPlaceholder = painter,
-                                imageOptions = ImageOptions(
-                                    contentScale = ContentScale.Crop,
-                                ),
-                            )
-                        }
+                        IconUser(iconUserUrl)
                     },
                     colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent),
                     navigationIcon = {
@@ -96,7 +73,6 @@ fun CustomToolbar(
                                     tint = Color.White,
                                     contentDescription = "Back",
                                 )
-
                             }
                             Text(
                                 text = title,
@@ -110,4 +86,31 @@ fun CustomToolbar(
         },
         content = content
     )
+}
+
+@Composable
+private fun IconUser(iconUserUrl: String) {
+    val defaultPainter = rememberVectorPainter(image = ImageVector.vectorResource((R.drawable.user)))
+    Box(
+        modifier = Modifier
+            .padding(dimensionResource(id = R.dimen.spacer_list))
+            .size(dimensionResource(id = R.dimen.background_detail_icon_user_size))
+            .aspectRatio(1f)
+            .clip(CircleShape)
+            .background(Color.White)
+    ) {
+        GlideImage(
+            modifier = Modifier
+                .padding(start = dimensionResource(id = R.dimen.padding_start_image_inside_box))
+                .align(Alignment.CenterStart)
+                .size(dimensionResource(id = R.dimen.picture_list_size))
+                .aspectRatio(1f)
+                .clip(CircleShape),
+            imageModel = { iconUserUrl },
+            previewPlaceholder = defaultPainter,
+            imageOptions = ImageOptions(
+                contentScale = ContentScale.Crop,
+            ),
+        )
+    }
 }
