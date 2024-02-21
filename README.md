@@ -21,6 +21,8 @@ En el tema librerías he utilizado Glide para mostrar imágenes desde una URL ya
 
 Para las llamadas a la API he utilizado Retrofit ya que es la que más he utilizado a lo largo de mi carrera y la veo bastante fácil de usar.
 
+También he utilizado puntualmente la librería de Gson, ya que la necesitaba para las navegaciones compose ya que se requiere convertir los modelos en un json para pasar la informacion de una pantalla a otra.
+
 ### Inyección de dependencias ###
 
 Para la inyección de dependencias he utilizado Hilt, ya que ya había trabajado anteriormente con ella en mis proyectos y sé gestionarlo en este tipo de proyectos.
