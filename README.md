@@ -14,3 +14,14 @@ Para los tests he utilizado JUnit5, que es la librería más actual para realiza
 Para la capa de vista he utilizado Jetpack Compose, ya que es el nuevo estándar y lo veo mejor para programar las vistas que en XML, y las navegaciones tambien he utilizado las propias de Jetpack Compose para navegar 
 entre vistas composables, teniendo solo una activity como contenedor. Podría haber utilizado fragments como contenedor e ir navegando entre ellos pero las navegaciones compose me parecen una cosa curiosa y facil de utilizar,
 sobre todo para un proyecto de esta escala.
+
+### Librerias ###
+
+En el tema librerías he utilizado Glide para mostrar imágenes desde una URL ya que ya estaba familiarizado con ella.
+
+Para las llamadas a la API he utilizado Retrofit ya que es la que más he utilizado a lo largo de mi carrera y la veo bastante fácil de usar.
+
+### Inyección de dependencias ###
+
+Para la inyección de dependencias he utilizado Hilt, ya que ya había trabajado anteriormente con ella en mis proyectos y sé gestionarlo en este tipo de proyectos.
+Pero uno de los incovenientes que le veo a este inyector es que todos los módulos tienen que depender de librerias android, con otro inyector como Anvil (el cual me parece bastante interesante) podría haber dejado las dependencias Android solo para el módulo de vista. 
