@@ -27,3 +27,7 @@ También he utilizado puntualmente la librería de Gson, ya que la necesitaba pa
 
 Para la inyección de dependencias he utilizado Hilt, ya que ya había trabajado anteriormente con ella en mis proyectos y sé gestionarlo en este tipo de proyectos.
 Pero uno de los incovenientes que le veo a este inyector es que todos los módulos tienen que depender de librerias android, con otro inyector como Anvil (el cual me parece bastante interesante) podría haber dejado las dependencias Android solo para el módulo de vista. 
+
+### Dificultades ###
+
+La toolbar de la vista detalle, ya que nunca había hecho una vista así, pero probando varias opciones al final di con la que más se asemejaba al diseño.
