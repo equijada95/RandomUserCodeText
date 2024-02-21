@@ -1,128 +1,49 @@
 package com.equijada95.randomusercodetext.presentation.detail
 
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.equijada95.domain.model.Gender
 import com.equijada95.domain.model.User
 import com.equijada95.randomusercodetext.R
+import com.equijada95.randomusercodetext.presentation.utilities.CustomToolbar
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.glide.GlideImage
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Detail(
     user: User
 ) {
-    val painter = rememberVectorPainter(image = ImageVector.vectorResource((R.drawable.user)))
-
-    val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-
     Column {
-        Scaffold(
-            topBar = {
-                Box {
-                    Image(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(dimensionResource(id = R.dimen.header_detail_background_size)),
-                        painter = painterResource(R.mipmap.background_header),
-                        contentDescription = "background_image",
-                        contentScale = ContentScale.FillBounds
-                    )
-                    LargeTopAppBar(
-                        title = {
-                            Box(
-                                modifier = Modifier
-                                    .align(Alignment.CenterStart)
-                                    .padding(dimensionResource(id = R.dimen.spacer_list))
-                                    .size(dimensionResource(id = R.dimen.background_detail_icon_user_size))
-                                    .aspectRatio(1f)
-                                    .clip(CircleShape)
-                                    .background(Color.White)
-                            ) {
-                                GlideImage(
-                                    modifier = Modifier
-                                        .padding(start = dimensionResource(id = R.dimen.padding_start_image_inside_box))
-                                        .align(Alignment.CenterStart)
-                                        .size(dimensionResource(id = R.dimen.picture_list_size))
-                                        .aspectRatio(1f)
-                                        .clip(CircleShape),
-                                    imageModel = { user.picture },
-                                    previewPlaceholder = painter,
-                                    imageOptions = ImageOptions(
-                                        contentScale = ContentScale.Crop,
-                                    ),
-                                )
-                            }
-                        },
-                        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent),
-                        navigationIcon = {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                IconButton(onClick = { onBackPressedDispatcher?.onBackPressed() }) {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                        tint = Color.White,
-                                        contentDescription = "Back",
-                                    )
-
-                                }
-                                Text(
-                                    text = user.name,
-                                    fontSize = dimensionResource(id = R.dimen.toolbar_detail_title).value.sp,
-                                    color = Color.White
-                                )
-                            }
-                        }
-                    )
-                }
-            }
+        CustomToolbar(
+            title = user.name,
+            backgroundId = R.dimen.header_detail_background_size,
+            iconUserUrl = user.picture
         ) { innerPadding ->
             DetailView(user = user, innerPadding = innerPadding)
         }
