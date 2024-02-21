@@ -2,7 +2,7 @@
 
 ### Arquitectura ###
 
-Para este proyecto he utilizado una arquitectura que ideé en su momento para proyectos que se basa un poco en la arquitectura VIPER con ViewModels para utilizar corrutinas.
+Para este proyecto he utilizado una arquitectura que ideé en su momento para proyectos así que se basa un poco en la arquitectura VIPER con ViewModels para utilizar corrutinas.
 Se podría haber complicado un poco añadiendo un módulo presentation, separando asi la capa app que tendría el application y el presentation donde estarían las vistas y el ViewModel, o quizá añadiendo use cases para comunicar el ViewModel con el repository, pero yo creo que para un proyecto de esta escala no era necesario.
 
 ### Tests ###
