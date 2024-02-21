@@ -50,6 +50,4 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
     testImplementation("io.mockk:mockk:1.13.9")
     testImplementation("app.cash.turbine:turbine:0.12.1")
-
-    implementation("androidx.core:core-ktx:1.12.0")
 }
