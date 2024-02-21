@@ -1,10 +1,9 @@
 package com.equijada95.randomusercodetext.presentation.detail
 
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -17,17 +16,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarColors
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,7 +25,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -46,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import com.equijada95.domain.model.Gender
 import com.equijada95.domain.model.User
 import com.equijada95.randomusercodetext.R
+import com.equijada95.randomusercodetext.presentation.utilities.TopBackBar
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -55,77 +45,71 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Detail(
     user: User
 ) {
-
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-    val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-    val painter = rememberVectorPainter(image = ImageVector.vectorResource((R.drawable.user)))
-
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            LargeTopAppBar(
-                colors = TopAppBarColors(
-                    containerColor = Color.Blue,
-                    scrolledContainerColor = Color.Red,
-                    actionIconContentColor = Color.White,
-                    navigationIconContentColor = Color.White,
-                    titleContentColor = Color.White
-                ),
-                title = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        GlideImage(
-                            modifier = Modifier
-                                .padding(dimensionResource(id = R.dimen.padding_constraint))
-                                .size(dimensionResource(id = R.dimen.picture_list_size))
-                                .aspectRatio(1f)
-                                .clip(CircleShape),
-                            imageModel = { user.picture },
-                            previewPlaceholder = painter,
-                            imageOptions = ImageOptions(
-                                contentScale = ContentScale.Crop,
-                            ),
-                        )
-                    }
-                },
-                navigationIcon = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(onClick = { onBackPressedDispatcher?.onBackPressed() }) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                tint = Color.White,
-                                contentDescription = "Back",
-                            )
-
-                        }
-                        Text(
-                            text = user.name,
-                            fontSize = dimensionResource(id = R.dimen.toolbar_detail_title).value.sp,
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior
-            )
-        },
-    ) { innerPadding ->
-        DetailView(user = user, innerPadding = innerPadding)
+    Column {
+        TopBackBar(title = user.name)
+        HeaderView(user.picture)
+        DetailView(user = user)
     }
 }
 
 @Composable
-private fun DetailView(user: User, innerPadding: PaddingValues) {
+private fun HeaderView(image: String) {
+    val painter = rememberVectorPainter(image = ImageVector.vectorResource((R.drawable.user)))
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(dimensionResource(id = R.dimen.header_detail_height))
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .background(color = MaterialTheme.colors.primary)
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .background(color = Color.White)
+            )
+        }
+        Box(
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .padding(dimensionResource(id = R.dimen.spacer_list))
+                .size(dimensionResource(id = R.dimen.background_detail_picture_size))
+                .aspectRatio(1f)
+                .clip(CircleShape)
+                .background(Color.White)
+        ) {
+            GlideImage(
+                modifier = Modifier
+                    .padding(start = dimensionResource(id = R.dimen.padding_start_image_inside_box))
+                    .align(Alignment.CenterStart)
+                    .size(dimensionResource(id = R.dimen.picture_list_size))
+                    .aspectRatio(1f)
+                    .clip(CircleShape),
+                imageModel = { image },
+                previewPlaceholder = painter,
+                imageOptions = ImageOptions(
+                    contentScale = ContentScale.Crop,
+                ),
+            )
+        }
+    }
+}
+
+@Composable
+private fun DetailView(user: User) {
     Column(
         modifier = Modifier
-            .padding(innerPadding)
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .background(Color.White)
