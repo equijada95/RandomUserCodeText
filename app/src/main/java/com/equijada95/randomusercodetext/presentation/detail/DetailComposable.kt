@@ -21,7 +21,6 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -46,7 +45,6 @@ import androidx.compose.ui.unit.sp
 import com.equijada95.domain.model.Gender
 import com.equijada95.domain.model.User
 import com.equijada95.randomusercodetext.R
-import com.equijada95.randomusercodetext.presentation.utilities.CustomToolbar
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
