@@ -40,7 +40,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.equijada95.domain.model.Gender
 import com.equijada95.domain.model.User
@@ -70,7 +69,7 @@ fun Detail(
                     Image(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(110.dp),
+                            .height(dimensionResource(id = R.dimen.header_detail_background_size)),
                         painter = painterResource(R.mipmap.background_header),
                         contentDescription = "background_image",
                         contentScale = ContentScale.FillBounds
@@ -81,7 +80,7 @@ fun Detail(
                                 modifier = Modifier
                                     .align(Alignment.CenterStart)
                                     .padding(dimensionResource(id = R.dimen.spacer_list))
-                                    .size(dimensionResource(id = R.dimen.background_detail_picture_size))
+                                    .size(dimensionResource(id = R.dimen.background_detail_icon_user_size))
                                     .aspectRatio(1f)
                                     .clip(CircleShape)
                                     .background(Color.White)
