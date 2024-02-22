@@ -62,7 +62,7 @@ private fun DetailView(user: User, innerPadding: PaddingValues) {
 
         Cell(drawableRsource = R.drawable.user, title = stringResource(id = R.string.name), description = user.name)
         Cell(drawableRsource = R.drawable.mail, title = stringResource(id = R.string.email), description = user.email)
-        user.gender.cell()
+        user.gender.Cell()
         Cell(drawableRsource = R.drawable.calendar, title = stringResource(id = R.string.registered_date), description = user.registeredDate)
         Cell(drawableRsource = R.drawable.call, title = stringResource(id = R.string.telephone), description = user.phone)
         val coordinates = try {
@@ -152,7 +152,7 @@ private fun AddressMap(coordinates: LatLng) {
 }
 
 @Composable
-private fun Gender.cell() =
+private fun Gender.Cell() =
     when(this) {
         Gender.FEMALE -> Cell(drawableRsource = R.drawable.female, title = stringResource(id = R.string.gender), description = stringResource(id = R.string.female))
         Gender.MALE -> Cell(drawableRsource = R.drawable.male, title = stringResource(id = R.string.gender), description = stringResource(id = R.string.male))
