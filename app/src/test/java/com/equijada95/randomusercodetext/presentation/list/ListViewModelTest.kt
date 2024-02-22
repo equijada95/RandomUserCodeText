@@ -107,6 +107,7 @@ class ListViewModelTest {
                 awaitItem()
                 awaitItem()
                 viewModel.loadMore()
+                awaitItem()
                 assertEquals(awaitItem().userList, mockLoadMoreUsers)
             }
         }
@@ -123,6 +124,7 @@ class ListViewModelTest {
                 viewModel.search("Eugenio")
                 assertEquals(awaitItem().userList, mockSearchUsers)
                 viewModel.loadMore()
+                awaitItem()
                 assertEquals(awaitItem().userList, mockLoadMoreSearchUsers)
             }
         }
