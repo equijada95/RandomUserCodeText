@@ -1,5 +1,6 @@
 package com.equijada95.domain.repository
 
+import androidx.annotation.VisibleForTesting
 import com.equijada95.data.model.RandomUserModel
 import com.equijada95.data.provider.AppProvider
 import com.equijada95.domain.model.Gender
@@ -45,6 +46,7 @@ class RandomUserRepositoryImpl @Inject constructor(
     }
 }
 
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 fun List<RandomUserModel>.toUserList() = map { it.toUser() }
 
 private fun RandomUserModel.toUser() = User(
