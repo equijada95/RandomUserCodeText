@@ -39,6 +39,7 @@ class ListViewModel @Inject constructor(
 
     fun loadMore() {
         viewModelScope.launch {
+            _state.update { it.copy(refreshing = true) }
             repository.getUsers(20).collect { result ->
                 when (result) {
                     is ApiResult.Success -> {

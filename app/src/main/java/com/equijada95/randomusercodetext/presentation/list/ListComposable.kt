@@ -7,20 +7,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,6 +35,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.getString
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -78,7 +80,7 @@ fun List(
             Loading()
         } else {
             SearchBar(setSearch = { viewModel.search(it) })
-            ListItems(userList = state.userList, goToDetail = goToDetail, loadMore = { viewModel.loadMore() })
+            ListItems(userList = state.userList, goToDetail = goToDetail, refreshing = state.refreshing, loadMore = { viewModel.loadMore() })
         }
     }
 }
@@ -87,27 +89,33 @@ fun List(
 private fun ListItems(
     userList: List<User>,
     goToDetail: (User) -> Unit,
+    refreshing: Boolean,
     loadMore: ()-> Unit
 ) {
-    val buffer = 1
-    val listState = rememberLazyListState()
-    val reachedBottom: Boolean by remember {
-        derivedStateOf {
-            val lastVisibleItem = listState.layoutInfo.visibleItemsInfo.lastOrNull()
-            lastVisibleItem?.index != 0 && lastVisibleItem?.index == listState.layoutInfo.totalItemsCount - buffer
-        }
-    }
+    var refreshingState by remember { mutableStateOf(false) }
+    refreshingState = refreshing
 
-    // load more if scrolled to bottom
-    LaunchedEffect(reachedBottom) {
-        if (reachedBottom) loadMore()
-    }
-    LazyColumn(state = listState) {
-        items(
-            items = userList, itemContent = { user ->
-                ItemView(user, goToDetail)
+    LazyColumn {
+        items(userList.size) {i ->
+            val item = userList[i]
+            if (i >= userList.size - 1 && !refreshing) {
+                refreshingState = true
+                loadMore()
             }
-        )
+            ItemView(user = item, goToDetail = goToDetail)
+        }
+        item {
+            if (refreshingState) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Loading()
+                }
+            }
+        }
     }
 }
 
@@ -169,5 +177,5 @@ fun ListPreview() {
         User(gender = Gender.MALE, name = "Pablo Garcia", email = "pablo@gmail.com", latitude = "-69.8246", longitude = "134.8719", picture = "https://randomuser.me/api/portraits/men/75.jpg", registeredDate = "2007-07-09T05:51:59.390Z", phone = "(272) 790-0888"),
         User(gender = Gender.MALE, name = "Pablo Garcia", email = "pablo@gmail.com", latitude = "-69.8246", longitude = "134.8719", picture = "https://randomuser.me/api/portraits/men/75.jpg", registeredDate = "2007-07-09T05:51:59.390Z", phone = "(272) 790-0888"),
     )
-    ListItems(userList = list, goToDetail = {}, loadMore = {  })
+    ListItems(userList = list, goToDetail = {}, refreshing = false, loadMore = {  })
 }
