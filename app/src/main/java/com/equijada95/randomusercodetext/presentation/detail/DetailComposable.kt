@@ -156,7 +156,7 @@ private fun Gender.Cell() =
     when(this) {
         Gender.FEMALE -> Cell(drawableRsource = R.drawable.female, title = stringResource(id = R.string.gender), description = stringResource(id = R.string.female))
         Gender.MALE -> Cell(drawableRsource = R.drawable.male, title = stringResource(id = R.string.gender), description = stringResource(id = R.string.male))
-        Gender.UNKNOWN -> Cell(drawableRsource = R.drawable.unknown, title = stringResource(id = R.string.gender), description = stringResource(id = R.string.female))
+        Gender.UNKNOWN -> Cell(drawableRsource = R.drawable.unknown, title = stringResource(id = R.string.gender), description = stringResource(id = R.string.unknown))
     }
 
 @Preview
