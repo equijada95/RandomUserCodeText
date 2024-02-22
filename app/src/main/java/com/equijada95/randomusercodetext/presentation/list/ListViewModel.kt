@@ -45,6 +45,7 @@ class ListViewModel @Inject constructor(
                     is ApiResult.Success -> {
                         val newUsers = result.data ?: emptyList()
                         originalUsers.value.addAll(newUsers)
+                        originalUsers.update { originalUsers.value.distinct().toMutableList() }
                         var users = originalUsers.value
                         if (searchText.value.isNotEmpty()) {
                             users = users.filter { user ->
@@ -82,7 +83,7 @@ class ListViewModel @Inject constructor(
         repository.getUsers(20).collect { result ->
             when (result) {
                 is ApiResult.Success -> {
-                    val users = result.data ?: emptyList()
+                    val users = result.data?.distinct() ?: emptyList()
                     originalUsers.update { users.toMutableList() }
                     _state.update {
                         it.copy(

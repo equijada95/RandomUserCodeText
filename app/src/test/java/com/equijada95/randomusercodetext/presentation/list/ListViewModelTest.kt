@@ -32,6 +32,12 @@ class ListViewModelTest {
         User(gender = Gender.MALE, name = "Paco Sánchez", email = "paco@gmail.com", latitude = "-69.8246", longitude = "134.8719", picture = "https://randomuser.me/api/portraits/men/75.jpg", registeredDate = "2007-07-09T05:51:59.390Z", phone = "(272) 790-0888"),
     )
 
+    private val mockUsers2 = listOf(
+        User(gender = Gender.MALE, name = "Pablo Mármol", email = "pablo@gmail.com", latitude = "-69.8246", longitude = "134.8719", picture = "https://randomuser.me/api/portraits/men/75.jpg", registeredDate = "2007-07-09T05:51:59.390Z", phone = "(272) 790-0888"),
+        User(gender = Gender.MALE, name = "Eugenio Sánchez", email = "eugenio@gmail.com", latitude = "-69.8246", longitude = "134.8719", picture = "https://randomuser.me/api/portraits/men/75.jpg", registeredDate = "2007-07-09T05:51:59.390Z", phone = "(272) 790-0888"),
+        User(gender = Gender.MALE, name = "Paco Pascual", email = "paco@gmail.com", latitude = "-69.8246", longitude = "134.8719", picture = "https://randomuser.me/api/portraits/men/75.jpg", registeredDate = "2007-07-09T05:51:59.390Z", phone = "(272) 790-0888"),
+    )
+
     private val mockSearchUsers = listOf(
         User(
             gender = Gender.MALE,
@@ -45,10 +51,24 @@ class ListViewModelTest {
         )
     )
 
-    private val mockLoadMoreUsers = mockUsers + mockUsers
-    private val mockLoadMoreSearchUsers = mockSearchUsers + mockSearchUsers
+    private val mockSearchUsers2 = listOf(
+        User(
+            gender = Gender.MALE,
+            name = "Eugenio Sánchez",
+            email = "eugenio@gmail.com",
+            latitude = "-69.8246",
+            longitude = "134.8719",
+            picture = "https://randomuser.me/api/portraits/men/75.jpg",
+            registeredDate = "2007-07-09T05:51:59.390Z",
+            phone = "(272) 790-0888"
+        )
+    )
+
+    private val mockLoadMoreUsers = mockUsers + mockUsers2
+    private val mockLoadMoreSearchUsers = mockSearchUsers + mockSearchUsers2
 
     private val mockApiSuccess = ApiResult.Success(mockUsers)
+    private val mockApiSuccess2 = ApiResult.Success(mockUsers2)
 
     @Test
     fun `get all users`() {
@@ -106,6 +126,7 @@ class ListViewModelTest {
             viewModel.state.test {
                 awaitItem()
                 awaitItem()
+                coEvery { repository.getUsers(any()) } returns flow { emit(mockApiSuccess2) }
                 viewModel.loadMore()
                 awaitItem()
                 assertEquals(awaitItem().userList, mockLoadMoreUsers)
@@ -123,6 +144,7 @@ class ListViewModelTest {
                 awaitItem()
                 viewModel.search("Eugenio")
                 assertEquals(awaitItem().userList, mockSearchUsers)
+                coEvery { repository.getUsers(any()) } returns flow { emit(mockApiSuccess2) }
                 viewModel.loadMore()
                 awaitItem()
                 assertEquals(awaitItem().userList, mockLoadMoreSearchUsers)
