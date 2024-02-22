@@ -69,22 +69,8 @@ fun CustomToolbar(
                             verticalAlignment = Alignment.Bottom
                         ) {
                             IconUser(iconUserUrl)
-                            Row(
-                                modifier = Modifier.padding(bottom = 10.dp) // TODO PONER DIMEN ID Y ICONOS BIEN
-                            ) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    tint = Color.Black,
-                                    contentDescription = "Back",
-                                )
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    tint = Color.Black,
-                                    contentDescription = "Back",
-                                )
-                            }
+                            IconsEndToolbar()
                         }
-
                     },
                     colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent),
                     navigationIcon = {
@@ -135,6 +121,27 @@ private fun IconUser(iconUserUrl: String) {
             imageOptions = ImageOptions(
                 contentScale = ContentScale.Crop,
             ),
+        )
+    }
+}
+
+@Composable
+private fun IconsEndToolbar() {
+    Row(
+        modifier = Modifier
+            .padding(bottom = dimensionResource(id = R.dimen.header_padding_bottom_icons_toolbar))
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.camera),
+            tint = Color.Black,
+            modifier = Modifier.padding(end = dimensionResource(id = R.dimen.header_padding_between_icons_toolbar)),
+            contentDescription = "Back",
+        )
+        Icon(
+            painter = painterResource(id = R.drawable.edit),
+            tint = Color.Black,
+            modifier = Modifier.padding(end = dimensionResource(id = R.dimen.header_padding_last_icon_toolbar)),
+            contentDescription = "Back",
         )
     }
 }

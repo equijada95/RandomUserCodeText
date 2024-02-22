@@ -6,6 +6,9 @@
     <dimen name="picture_list_size">60dp</dimen>
     <dimen name="background_detail_icon_user_size">62dp</dimen>
     <dimen name="header_detail_background_size">110dp</dimen>
+    <dimen name="header_padding_bottom_icons_toolbar">10dp</dimen>
+    <dimen name="header_padding_between_icons_toolbar">30dp</dimen>
+    <dimen name="header_padding_last_icon_toolbar">20dp</dimen>
     <dimen name="padding_start_image_inside_box">1dp</dimen>
     <dimen name="icon_detail_size">20dp</dimen>
     <dimen name="padding_icon_detail">15dp</dimen>
