@@ -7,9 +7,14 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 import java.io.IOException
 
-interface Repository<T, P, K: BaseMapper<T, P>> {
+interface Repository<T, K> {
 
-    fun handleResult(response: Response<T>, mapper: BaseMapper<T, P>): Flow<ApiResult<P>> = flow {
+    fun handleResult(response: Response<T>, mapper: BaseMapper<T, K>): Flow<ApiResult<K>>
+
+}
+
+abstract class RepositoryImpl<T, K> : Repository<T, K> {
+    override fun handleResult(response: Response<T>, mapper: BaseMapper<T, K>): Flow<ApiResult<K>> = flow {
         try {
             if (response.code() in 400..500) {
                 emit(
