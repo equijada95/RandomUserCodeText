@@ -9,11 +9,12 @@ import com.equijada95.domain.model.User
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
+import javax.inject.Inject
 
 private const val DATE_FORMAT_INPUT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
 private const val DATE_FORMAT_OUTPUT = "dd-MM-yyyy"
 
-class UserMapper: BaseMapper<RandomUserResults, List<User>> {
+class UserMapper @Inject constructor(): BaseMapper<RandomUserResults, List<User>> {
     override fun map(toMap: RandomUserResults?): List<User>? = toMap?.results?.toUserList()
 }
 
