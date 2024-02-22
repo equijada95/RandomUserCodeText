@@ -31,3 +31,5 @@ Pero uno de los incovenientes que le veo a este inyector es que todos los módul
 ### Dificultades ###
 
 La toolbar de la vista detalle, ya que nunca había hecho una vista así, pero probando varias opciones al final di con la que más se asemejaba al diseño.
+
+Añadir animación al scroll infinito, ya que lo tenia montado de otra manera pero no sabía como meter la animación, la opción actual no es tan elegante como la que había implementado en un principio pero funciona correctamente.
