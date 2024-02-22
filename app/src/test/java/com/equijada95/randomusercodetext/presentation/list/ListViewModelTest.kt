@@ -151,4 +151,36 @@ class ListViewModelTest {
             }
         }
     }
+
+    @Test
+    fun `when load duplicated users, returns unduplicated users`() {
+        coroutinesExtension.runTest {
+            coEvery { repository.getUsers(any()) } returns flow { emit(mockApiSuccess) }
+            initViewModel()
+            viewModel.state.test {
+                awaitItem()
+                assertEquals(awaitItem().userList, mockUsers)
+                viewModel.loadMore()
+                awaitItem()
+                assertEquals(awaitItem().userList, mockUsers)
+            }
+        }
+    }
+
+    @Test
+    fun `when load duplicated users with search, returns unduplicated users`() {
+        coroutinesExtension.runTest {
+            coEvery { repository.getUsers(any()) } returns flow { emit(mockApiSuccess) }
+            initViewModel()
+            viewModel.state.test {
+                awaitItem()
+                awaitItem()
+                viewModel.search("Eugenio")
+                assertEquals(awaitItem().userList, mockSearchUsers)
+                viewModel.loadMore()
+                awaitItem()
+                assertEquals(awaitItem().userList, mockSearchUsers)
+            }
+        }
+    }
 }
