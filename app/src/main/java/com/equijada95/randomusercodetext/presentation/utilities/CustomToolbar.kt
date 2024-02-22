@@ -3,6 +3,7 @@ package com.equijada95.randomusercodetext.presentation.utilities
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -32,6 +33,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.equijada95.randomusercodetext.R
 import com.skydoves.landscapist.ImageOptions
@@ -53,14 +56,35 @@ fun CustomToolbar(
                 Image(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(dimensionResource(id = backgroundId)),
-                    painter = painterResource(R.mipmap.background_header),
+                        .height(dimensionResource(id = R.dimen.header_detail_background_size)),
+                    painter = painterResource(backgroundId),
                     contentDescription = "background_image",
                     contentScale = ContentScale.FillBounds
                 )
                 LargeTopAppBar(
                     title = {
-                        IconUser(iconUserUrl)
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.Bottom
+                        ) {
+                            IconUser(iconUserUrl)
+                            Row(
+                                modifier = Modifier.padding(bottom = 10.dp) // TODO PONER DIMEN ID Y ICONOS BIEN
+                            ) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                    tint = Color.Black,
+                                    contentDescription = "Back",
+                                )
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                    tint = Color.Black,
+                                    contentDescription = "Back",
+                                )
+                            }
+                        }
+
                     },
                     colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent),
                     navigationIcon = {
@@ -113,4 +137,10 @@ private fun IconUser(iconUserUrl: String) {
             ),
         )
     }
+}
+
+@Preview
+@Composable
+fun ToolbarPreview() {
+    CustomToolbar(title = "Pablo Mármol", backgroundId = R.mipmap.background_header, iconUserUrl = "https://randomuser.me/api/portraits/men/75.jpg") {}
 }

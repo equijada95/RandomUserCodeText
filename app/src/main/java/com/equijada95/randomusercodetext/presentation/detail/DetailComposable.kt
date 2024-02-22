@@ -42,7 +42,7 @@ fun Detail(
     Column {
         CustomToolbar(
             title = user.name,
-            backgroundId = R.dimen.header_detail_background_size,
+            backgroundId = R.mipmap.background_header,
             iconUserUrl = user.picture
         ) { innerPadding ->
             DetailView(user = user, innerPadding = innerPadding)
