@@ -51,21 +51,7 @@ class ListViewModelTest {
         )
     )
 
-    private val mockSearchUsers2 = listOf(
-        User(
-            gender = Gender.MALE,
-            name = "Eugenio Sánchez",
-            email = "eugenio@gmail.com",
-            latitude = "-69.8246",
-            longitude = "134.8719",
-            picture = "https://randomuser.me/api/portraits/men/75.jpg",
-            registeredDate = "2007-07-09T05:51:59.390Z",
-            phone = "(272) 790-0888"
-        )
-    )
-
     private val mockLoadMoreUsers = mockUsers + mockUsers2
-    private val mockLoadMoreSearchUsers = mockSearchUsers + mockSearchUsers2
 
     private val mockApiSuccess = ApiResult.Success(mockUsers)
     private val mockApiSuccess2 = ApiResult.Success(mockUsers2)
@@ -119,7 +105,7 @@ class ListViewModelTest {
     }
 
     @Test
-    fun `when load users without search text, returns users`() {
+    fun `when load users, returns users`() {
         coroutinesExtension.runTest {
             coEvery { repository.getUsers(any()) } returns flow { emit(mockApiSuccess) }
             initViewModel()
@@ -135,24 +121,6 @@ class ListViewModelTest {
     }
 
     @Test
-    fun `when load users with search text, returns users with that name`() {
-        coroutinesExtension.runTest {
-            coEvery { repository.getUsers(any()) } returns flow { emit(mockApiSuccess) }
-            initViewModel()
-            viewModel.state.test {
-                awaitItem()
-                awaitItem()
-                viewModel.search("Eugenio")
-                assertEquals(awaitItem().userList, mockSearchUsers)
-                coEvery { repository.getUsers(any()) } returns flow { emit(mockApiSuccess2) }
-                viewModel.loadMore()
-                awaitItem()
-                assertEquals(awaitItem().userList, mockLoadMoreSearchUsers)
-            }
-        }
-    }
-
-    @Test
     fun `when load duplicated users, returns unduplicated users`() {
         coroutinesExtension.runTest {
             coEvery { repository.getUsers(any()) } returns flow { emit(mockApiSuccess) }
@@ -163,23 +131,6 @@ class ListViewModelTest {
                 viewModel.loadMore()
                 awaitItem()
                 assertEquals(awaitItem().userList, mockUsers)
-            }
-        }
-    }
-
-    @Test
-    fun `when load duplicated users with search, returns unduplicated users`() {
-        coroutinesExtension.runTest {
-            coEvery { repository.getUsers(any()) } returns flow { emit(mockApiSuccess) }
-            initViewModel()
-            viewModel.state.test {
-                awaitItem()
-                awaitItem()
-                viewModel.search("Eugenio")
-                assertEquals(awaitItem().userList, mockSearchUsers)
-                viewModel.loadMore()
-                awaitItem()
-                assertEquals(awaitItem().userList, mockSearchUsers)
             }
         }
     }

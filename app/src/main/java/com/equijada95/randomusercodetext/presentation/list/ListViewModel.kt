@@ -27,6 +27,9 @@ class ListViewModel @Inject constructor(
     private val _event = Channel<Event>()
     val event = _event.receiveAsFlow()
 
+    val isSearching: Boolean
+        get() = searchText.value.isNotEmpty()
+
     private val originalUsers = MutableStateFlow(mutableListOf<User>())
 
     private var searchText = MutableStateFlow("")
@@ -38,6 +41,7 @@ class ListViewModel @Inject constructor(
     }
 
     fun loadMore() {
+        if (isSearching) return
         viewModelScope.launch {
             _state.update { it.copy(refreshing = true) }
             repository.getUsers(20).collect { result ->
@@ -46,16 +50,9 @@ class ListViewModel @Inject constructor(
                         val newUsers = result.data ?: emptyList()
                         originalUsers.value.addAll(newUsers)
                         originalUsers.update { originalUsers.value.distinct().toMutableList() }
-                        var users = originalUsers.value
-                        if (searchText.value.isNotEmpty()) {
-                            users = users.filter { user ->
-                                user.name.uppercase().contains(searchText.value.uppercase()) ||
-                                        user.email.uppercase().contains(searchText.value.uppercase())
-                            }.toMutableList()
-                        }
                         _state.update {
                             it.copy(
-                                userList = users,
+                                userList = originalUsers.value,
                                 loading = false,
                                 refreshing = false
                             )
@@ -80,6 +77,7 @@ class ListViewModel @Inject constructor(
     }
 
     private suspend fun getUsers() {
+        if (isSearching) return
         repository.getUsers(20).collect { result ->
             when (result) {
                 is ApiResult.Success -> {
