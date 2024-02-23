@@ -96,7 +96,7 @@ private fun ListItems(
     LazyColumn {
         items(userList.size) {i ->
             val item = userList[i]
-            if (i >= userList.size - 1 && !isSearching && !refreshing) {
+            if (i >= userList.size - 1 && !isSearching && !refreshingState) {
                 refreshingState = true
                 loadMore()
             }
