@@ -76,7 +76,7 @@ fun List(
         if (state.loading) {
             Loading()
         } else {
-            SearchBar(setSearch = { viewModel.search(it) })
+            SearchBar(isRefreshing = state.refreshing, setSearch = { viewModel.search(it) })
             ListItems(userList = state.userList, goToDetail = goToDetail, isSearching = viewModel.isSearching, refreshing = state.refreshing, loadMore = { viewModel.loadMore() })
         }
     }

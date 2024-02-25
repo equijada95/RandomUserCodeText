@@ -22,7 +22,8 @@ import com.equijada95.randomusercodetext.R
 
 @Composable
 fun SearchBar(
-    setSearch: (String) -> Unit
+    setSearch: (String) -> Unit,
+    isRefreshing: Boolean
 ) {
     var searchText by remember { mutableStateOf("") }
 
@@ -52,6 +53,7 @@ fun SearchBar(
             .padding(dimensionResource(id = R.dimen.padding_constraint))
             .fillMaxWidth(),
         value = searchText,
+        enabled = !isRefreshing,
         onValueChange = {
             searchText = it
             setSearch(it)
