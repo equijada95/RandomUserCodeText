@@ -36,8 +36,8 @@ fun NavigationController(
 sealed class Destinations(
     val route: String
 ) {
-    object List: Destinations("List")
-    object Detail: Destinations("Detail/{user}") {
+    data object List: Destinations("List")
+    data object Detail: Destinations("Detail/{user}") {
         fun createRoute(userJson: String) = "Detail/$userJson"
     }
 }
