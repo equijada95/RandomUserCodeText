@@ -60,6 +60,7 @@ class ListViewModel @Inject constructor(
                     }
 
                     is ApiResult.Error -> {
+                        _state.update { it.copy(refreshing = false) }
                         result.error?.let { handleError(it) }
                     }
                     else -> Unit
